@@ -12,34 +12,25 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
-import Warning from '@material-ui/icons/Warning';
 import WavesIcon from '@material-ui/icons/Waves';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import MenuIcon from '@material-ui/icons/Menu';
 import SpaIcon from '@material-ui/icons/Spa';
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { connect } from 'react-redux';
 import { Link, BrowserRouter, withRouter } from "react-router-dom";
-// import Settings from './Components/Settings';
-// import Graph_One from './Components/Graph_One';
-// import All from './Components/All';
-// import Graph_Two from './Components/Graph_Two';
-// import Github from './Components/Github';
-// import Incidents from './Components/Incidents';
-// import Acsfreeze from './Components/AcsFreeze';
-// import Splunk from './Components/Splunk';
-// import Documentation from './Components/Documentation';
 import Spinner from './Components/Spinner/Spinner';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
 // import { submitLogout} from '../Services/Service';
 import { clearNotifier } from '../Redux/actions/DashBoardActions';
+
+import { GoslingComponent } from "gosling.js";
+
 
 const drawerWidth = 230;
 
@@ -167,26 +158,16 @@ function SideBar(props) {
   });
 
   const [selected, setSelected] = useState(() => {
-    if(props.location.pathname.includes('/all')){
-      return 'all'
-    } else if(props.location.pathname.includes('/graph_one')){
+    if(props.location.pathname.includes('/graph_one')){
       return 'graph_one'
     } else if(props.location.pathname.includes('/graph_two')){
       return 'graph_two'
-    } else if(props.location.pathname.includes('/github')){
-      return 'github'
-    } else if(props.location.pathname.includes('/incidents')){
-      return 'incidents'
-    } else if(props.location.pathname.includes('/settings')){
-      return 'settings'
-    }else if(props.location.pathname.includes('/acsfreeze')){
-      return 'acsfreeze'
-    }else if(props.location.pathname.includes('/splunk')){
-      return 'splunk'
-    }else if(props.location.pathname.includes('/docs')){
-      return 'docs'
+    } else if(props.location.pathname.includes('/graph_three')){
+      return 'graph_three'
+    } else if(props.location.pathname.includes('/graph_four')){
+      return 'graph_four'
     } else {
-      return 'all'
+      return 'graph_one'
     }
   });
 
@@ -219,7 +200,7 @@ function SideBar(props) {
 
 
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   useEffect(() => {
     setLoading(false);
   }, []);
@@ -239,10 +220,10 @@ function SideBar(props) {
       setSelected('graph_one')
     } else if (selected === 'graph_two') {
         setSelected('graph_two')
-    } else if (selected === 'github') {
-        setSelected('github')
-    } else if (selected === 'incidents') {
-        setSelected('incidents')
+    } else if (selected === 'graph_three') {
+        setSelected('graph_three')
+    } else if (selected === 'graph_four') {
+        setSelected('graph_four')
     } else if (selected === 'settings') {
         setSelected('settings')
     } else if (selected === 'docs') {
@@ -277,6 +258,26 @@ function SideBar(props) {
   const handleOpen = () => {
     setOpen(true);
   };
+
+  const mySpec  = {
+    "tracks": [{
+      "data": {
+        "url": "https://server.gosling-lang.org/api/v1/tileset_info/?d=cistrome-multivec",
+        "type": "multivec",
+        "row": "sample",
+        "column": "position",
+        "value": "peak",
+        "categories": ["sample 1"]
+      },
+      "mark": "rect",
+      "x": { "field": "position", "type": "genomic" },
+      "color": { "field": "peak", "type": "quantitative", "legend": true },
+      "width": 600,
+      "height": 130
+    }]
+  }
+
+
   return (<> { logout ?
     <div className={classes.root}>
       <CssBaseline />
@@ -342,37 +343,22 @@ function SideBar(props) {
           </ListItem>
           <ListItem
             button
-            key='all'
-            onClick={e => onClickHandler(e, 'all')}
-            selected={selected === 'all' ? true : false}
+            key='graph_one'
+            onClick={e => onClickHandler(e, 'graph_one')}
+            selected={selected === 'graph_one' ? true : false}
             component={Link}
-            to={'/'+env+'/all'}
+            to={'/'+env+'/graph_one'}
           >
             <ListItemIcon style={{minWidth:'48px'}}>
             <AllInclusiveIcon style={{fontSize:'1.38rem'}}/>
             </ListItemIcon>
             <ListItemText
               className={classes.fontItem}
-              primary={'All'}
+              primary={'Graph_One'}
               disableTypography
             />
           </ListItem>
-          <ListItem
-            button
-            key='graph_one'
-            onClick={e => onClickHandler(e, 'graph_one')}
-            selected={selected === 'graph_one' ? true : false}
-            component={Link}
-            to={'/'+env+'/graph_one'}
-            >
-            <ListItemIcon style={{minWidth:'48px'}}>
-            <WavesIcon style={{fontSize:'1.38rem'}}/>
-            </ListItemIcon>
-            <ListItemText
-              className={classes.fontItem}
-              primary={'Graph_One'}
-              disableTypography/>
-          </ListItem>
+
           <ListItem
             button
             key='graph_two'
@@ -380,55 +366,6 @@ function SideBar(props) {
             selected={selected === 'graph_two' ? true : false}
             component={Link}
             to={'/'+env+'/graph_two'}
-          >
-            <ListItemIcon style={{minWidth:'48px'}}>
-            <HomeWorkIcon style={{fontSize:'1.38rem'}}/>
-            </ListItemIcon>
-            <ListItemText
-              className={classes.fontItem}
-              primary={'Graph_Two'}
-              disableTypography/>
-          </ListItem>
-          <ListItem
-            button
-            key='github'
-            onClick={e => onClickHandler(e, 'github')}
-            selected={selected === 'github' ? true : false}
-            component={Link}
-            to={'/'+env+'/github'}
-            >
-            <ListItemIcon style={{minWidth:'48px'}}>
-            <GitHubIcon style={{fontSize:'1.38rem'}}/>
-            </ListItemIcon>
-            <ListItemText
-              className={classes.fontItem}
-              primary={'Github'}
-              disableTypography/>
-          </ListItem>
-          <ListItem
-            button
-            key='incidents'
-            onClick={e => onClickHandler(e, 'incidents')}
-            selected={selected === 'incidents' ? true : false}
-            component={Link}
-            to={'/'+env+'/incidents'}
-            >
-            <ListItemIcon style={{minWidth:'48px'}}>
-            <Warning style={{fontSize:'1.38rem'}}/>
-            </ListItemIcon>
-            <ListItemText
-              style={{minWidth:'130px'}}
-              className={classes.fontItem}
-              primary={'Incidents (Inkblot)'}
-              disableTypography/>
-          </ListItem>
-          <ListItem
-            button
-            key='acsfreeze'
-            onClick={e => onClickHandler(e, 'acsfreeze')}
-            selected={selected === 'acsfreeze' ? true : false}
-            component={Link}
-            to={'/'+env+'/acsfreeze'}
             >
             <ListItemIcon style={{minWidth:'48px'}}>
             <AcUnitIcon style={{fontSize:'1.38rem'}}/>
@@ -436,25 +373,41 @@ function SideBar(props) {
             <ListItemText
               style={{minWidth:'130px'}}
               className={classes.fontItem, classes.primary}
-              primary={ 'ACS Prod Freeze'}
+              primary={ 'Graph_Two'}
               disableTypography/>
           </ListItem>
           <ListItem
             button
-            key='splunk'
-            onClick={e => onClickHandler(e, 'splunk')}
-            selected={selected === 'splunk' ? true : false}
+            key='graph_three'
+            onClick={e => onClickHandler(e, 'graph_three')}
+            selected={selected === 'graph_two' ? true : false}
             component={Link}
             style={{maxHeight:'47px'}}
-            to={'/'+env+'/splunk'}
+            to={'/'+env+'/graph_three'}
             >
-            <ListItemIcon>
-            <SpaIcon />
+            <ListItemIcon style={{minWidth:'48px'}}>
+            <SpaIcon style={{fontSize:'1.38rem'}}/>
             </ListItemIcon>
             <ListItemText
               className={classes.fontItem}
               style={{minWidth:'130px'}}
-              primary={'Users Impacted (Splunk)'}
+              primary={'Graph_Three'}
+              disableTypography/>
+          </ListItem>
+          <ListItem
+            button
+            key='graph_four'
+            onClick={e => onClickHandler(e, 'graph_four')}
+            selected={selected === 'graph_four' ? true : false}
+            component={Link}
+            to={'/'+env+'/graph_four'}
+            >
+            <ListItemIcon style={{minWidth:'48px'}}>
+            <WavesIcon style={{fontSize:'1.38rem'}}/>
+            </ListItemIcon>
+            <ListItemText
+              className={classes.fontItem}
+              primary={'Graph_Four'}
               disableTypography/>
           </ListItem>
           <ListItem
@@ -485,17 +438,41 @@ function SideBar(props) {
             { false ? <Spinner /> :
 
             <>
-            <div style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap', fontSize:'3.38rem'}}>
-            {(() => {
-                      switch(selected) {
-                        // case 'all':
-                        //   return <All selectedSource={selected} selectedEnv={env} key={env}/>
+            <div style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap', fontSize:'2.38rem'}}>
+            {(() => { 
+                      return(
+                     () => { switch(selected) {
                         case 'graph_one':
-                          return <WavesIcon  selectedSource={selected} selectedEnv={env} key={env} />
+                          return( <div style={{width:'100%', height:'600px', display: 'flex', alignItems:'center', justifyContent:'center'}}> <AllInclusiveIcon style={{fontSize:'1.38rem'}} /></div>);
                         case 'graph_two':
-                          return <HomeWorkIcon style={{fontSize:'1.38rem'}} selectedSource={selected} selectedEnv={env} key={env} />
-                        case 'github':
-                          return <GitHubIcon style={{fontSize:'1.38rem'}} selectedSource={selected} selectedEnv={env} key={env} />
+                          return(<div style={{width:'100%', height:'600px', display: 'flex', alignItems:'center', justifyContent:'center'}}> <AcUnitIcon  style={{fontSize:'1.38rem'}} /></div> );
+                        case 'graph_three':
+                          return( <div style={{width:'100%', height:'600px', display: 'flex', alignItems:'center', justifyContent:'center'}}><SpaIcon style={{fontSize:'1.38rem'}}  /></div>);
+                        case 'graph_four':
+                          return( <div style={{width:'100%', height:'600px', display: 'flex', alignItems:'center', justifyContent:'center'}}><GoslingComponent
+                          spec={{ 
+                            tracks: [{
+                              id: 'heatmap-track',
+                              data: {
+                                url: 'https://server.gosling-lang.org/api/v1/tileset_info/?d=cistrome-multivec',
+                                type: 'multivec',
+                                row: 'sample',
+                                column: 'position',
+                                value: 'peak',
+                                categories: ['sample 1', 'sample 2', 'sample 3', 'sample 4'],
+                                binSize: 4
+                              },
+                              mark: 'rect',
+                              x: { field: 'start', type: 'genomic' },
+                              xe: { field: 'end', type: 'genomic' },
+                              row: { field: 'sample', type: 'nominal', legend: true },
+                              color: { field: 'peak', type: 'quantitative', legend: true, range: 'pink' },
+                              width: 600,
+                              height: 130
+                            }]
+                          }}
+                          experimental={{ reactive: true }}
+                        /></div>);                   
                         // case 'incidents':
                         //   return <Incidents selectedSource={selected} selectedEnv={env} key={env} />
                         // case 'acsfreeze':
@@ -508,8 +485,8 @@ function SideBar(props) {
                         //   return <Documentation />
                         // default:
                         //   return <WavesIcon style={{fontSize:'1.38rem'}}/>
-                      }
-                      
+                      }}
+                      )()                      
             })()}
             </div>
             </>}

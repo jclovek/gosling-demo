@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import clsx from 'clsx';
@@ -6,14 +6,14 @@ import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
-import ReactTooltip from "react-tooltip";
+// import ReactTooltip from "react-tooltip";
 import Typography from "@material-ui/core/Typography";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
 import WavesIcon from '@material-ui/icons/Waves';
-import GitHubIcon from '@material-ui/icons/GitHub';
+// import GitHubIcon from '@material-ui/icons/GitHub';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -28,8 +28,9 @@ import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
 // import { submitLogout} from '../Services/Service';
 import { clearNotifier } from '../Redux/actions/DashBoardActions';
+import GosCircosDemo from './Components/gosling/GosCircosDemo';  
 
-import { GoslingComponent } from "gosling.js";
+// import { GoslingComponent } from "gosling.js";
 
 
 const drawerWidth = 230;
@@ -145,7 +146,7 @@ function SideBar(props) {
 
   const history = useHistory();
   const [loggedOut, setLoggedOut] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const [logout, setOpens] = useState(() => {
     if(props.location.pathname.includes('/logout')) {
@@ -164,8 +165,8 @@ function SideBar(props) {
       return 'graph_two'
     } else if(props.location.pathname.includes('/graph_three')){
       return 'graph_three'
-    } else if(props.location.pathname.includes('/graph_four')){
-      return 'graph_four'
+    } else if(props.location.pathname.includes('/gos_circos_demm')){
+      return 'gos_circos_demm'
     } else {
       return 'graph_one'
     }
@@ -196,14 +197,15 @@ function SideBar(props) {
 
   const classes = useStyles();
 
-  const [env, setEnv] = useState(() => { return 'prod' });
+  // const [env, setEnv] = useState(() => { return 'prod' });
 
 
 
   const [open, setOpen] = useState(true);
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+
+  // useEffect(() => {
+  //   setLoading(false);
+  // }, []);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -222,8 +224,8 @@ function SideBar(props) {
         setSelected('graph_two')
     } else if (selected === 'graph_three') {
         setSelected('graph_three')
-    } else if (selected === 'graph_four') {
-        setSelected('graph_four')
+    } else if (selected === 'gos_circos_demm') {
+        setSelected('gos_circos_demm')
     } else if (selected === 'settings') {
         setSelected('settings')
     } else if (selected === 'docs') {
@@ -238,44 +240,32 @@ function SideBar(props) {
     props.clearNotifier()
   }
 
-  const handleEnvChange = (event) => {
-    if(event.currentTarget.value === 'qa') {
-      window.location.href = 'https://localhost';
-    } else {
-      props.history.push(`/${event.currentTarget.value}/`+selected);
-      setEnv(event.currentTarget.value);
-    }
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const renderEnvName = (param) => {
-    switch(param) {
-     
-    }
-  }
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  // const mySpec  = {
+  //   "tracks": [{
+  //     "data": {
+  //       "url": "https://server.gosling-lang.org/api/v1/tileset_info/?d=cistrome-multivec",
+  //       "type": "multivec",
+  //       "row": "sample",
+  //       "column": "position",
+  //       "value": "peak",
+  //       "categories": ["sample 1"]
+  //     },
+  //     "mark": "rect",
+  //     "x": { "field": "position", "type": "genomic" },
+  //     "color": { "field": "peak", "type": "quantitative", "legend": true },
+  //     "width": 600,
+  //     "height": 130
+  //   }]
+  // }
 
-  const mySpec  = {
-    "tracks": [{
-      "data": {
-        "url": "https://server.gosling-lang.org/api/v1/tileset_info/?d=cistrome-multivec",
-        "type": "multivec",
-        "row": "sample",
-        "column": "position",
-        "value": "peak",
-        "categories": ["sample 1"]
-      },
-      "mark": "rect",
-      "x": { "field": "position", "type": "genomic" },
-      "color": { "field": "peak", "type": "quantitative", "legend": true },
-      "width": 600,
-      "height": 130
-    }]
-  }
+  const listItemClasses = 'classes.fontItem, classes.primary'
 
 
   return (<> { logout ?
@@ -338,7 +328,7 @@ function SideBar(props) {
                 // [classes.hide]: open,
               })}
             >
-              { open ? <ArrowBackIosIcon disableFocusRipple={true} disableRipple={true} style={{fontSize:'16px', boxShadow: 'none', backgroundColor:'white'}} /> : <ArrowForwardIosIcon style={{fontSize:'16px', boxShadow: 'none', backgroundColor:'white'}} /> }
+              { open ? <ArrowBackIosIcon  style={{fontSize:'16px', boxShadow: 'none', backgroundColor:'white'}} /> : <ArrowForwardIosIcon style={{fontSize:'16px', boxShadow: 'none', backgroundColor:'white'}} /> }
           </IconButton>
           </ListItem>
           <ListItem
@@ -347,7 +337,7 @@ function SideBar(props) {
             onClick={e => onClickHandler(e, 'graph_one')}
             selected={selected === 'graph_one' ? true : false}
             component={Link}
-            to={'/'+env+'/graph_one'}
+            to={'/graph_one'}
           >
             <ListItemIcon style={{minWidth:'48px'}}>
             <AllInclusiveIcon style={{fontSize:'1.38rem'}}/>
@@ -365,14 +355,14 @@ function SideBar(props) {
             onClick={e => onClickHandler(e, 'graph_two')}
             selected={selected === 'graph_two' ? true : false}
             component={Link}
-            to={'/'+env+'/graph_two'}
+            to={'/graph_two'}
             >
             <ListItemIcon style={{minWidth:'48px'}}>
             <AcUnitIcon style={{fontSize:'1.38rem'}}/>
             </ListItemIcon>
             <ListItemText
               style={{minWidth:'130px'}}
-              className={classes.fontItem, classes.primary}
+              className={listItemClasses}
               primary={ 'Graph_Two'}
               disableTypography/>
           </ListItem>
@@ -383,7 +373,7 @@ function SideBar(props) {
             selected={selected === 'graph_two' ? true : false}
             component={Link}
             style={{maxHeight:'47px'}}
-            to={'/'+env+'/graph_three'}
+            to={'/graph_three'}
             >
             <ListItemIcon style={{minWidth:'48px'}}>
             <SpaIcon style={{fontSize:'1.38rem'}}/>
@@ -396,18 +386,18 @@ function SideBar(props) {
           </ListItem>
           <ListItem
             button
-            key='graph_four'
-            onClick={e => onClickHandler(e, 'graph_four')}
-            selected={selected === 'graph_four' ? true : false}
+            key='gos_circos_demm'
+            onClick={e => onClickHandler(e, 'gos_circos_demm')}
+            selected={selected === 'gos_circos_demm' ? true : false}
             component={Link}
-            to={'/'+env+'/graph_four'}
+            to={'/gos_circos_demm'}
             >
             <ListItemIcon style={{minWidth:'48px'}}>
             <WavesIcon style={{fontSize:'1.38rem'}}/>
             </ListItemIcon>
             <ListItemText
               className={classes.fontItem}
-              primary={'Graph_Four'}
+              primary={'Gosling Circos'}
               disableTypography/>
           </ListItem>
           <ListItem
@@ -417,7 +407,7 @@ function SideBar(props) {
             onClick={e => onClickHandler(e, 'settings')}
             selected={selected === 'settings' ? true : false}
             component={Link}
-            to={'/'+env+'/settings'}
+            to={'/settings'}
             >
             <ListItemIcon style={{minWidth:'48px'}}>
             <SettingsIcon style={{fontSize:'1.38rem'}}/>
@@ -448,43 +438,10 @@ function SideBar(props) {
                           return(<div style={{width:'100%', height:'600px', display: 'flex', alignItems:'center', justifyContent:'center'}}> <AcUnitIcon  style={{fontSize:'1.38rem'}} /></div> );
                         case 'graph_three':
                           return( <div style={{width:'100%', height:'600px', display: 'flex', alignItems:'center', justifyContent:'center'}}><SpaIcon style={{fontSize:'1.38rem'}}  /></div>);
-                        case 'graph_four':
-                          return( <div style={{width:'100%', height:'600px', display: 'flex', alignItems:'center', justifyContent:'center'}}><GoslingComponent
-                          spec={{ 
-                            tracks: [{
-                              id: 'heatmap-track',
-                              data: {
-                                url: 'https://server.gosling-lang.org/api/v1/tileset_info/?d=cistrome-multivec',
-                                type: 'multivec',
-                                row: 'sample',
-                                column: 'position',
-                                value: 'peak',
-                                categories: ['sample 1', 'sample 2', 'sample 3', 'sample 4'],
-                                binSize: 4
-                              },
-                              mark: 'rect',
-                              x: { field: 'start', type: 'genomic' },
-                              xe: { field: 'end', type: 'genomic' },
-                              row: { field: 'sample', type: 'nominal', legend: true },
-                              color: { field: 'peak', type: 'quantitative', legend: true, range: 'pink' },
-                              width: 600,
-                              height: 130
-                            }]
-                          }}
-                          experimental={{ reactive: true }}
-                        /></div>);                   
-                        // case 'incidents':
-                        //   return <Incidents selectedSource={selected} selectedEnv={env} key={env} />
-                        // case 'acsfreeze':
-                        // return <Acsfreeze selectedSource={selected} selectedEnv={env} key={env} />
-                        // case 'splunk':
-                        // return <Splunk selectedSource={selected} selectedEnv={env} key={env} />
-                        // case 'settings':
-                        //   return <Settings selectedEnv={env} />
-                        // case 'docs':
-                        //   return <Documentation />
-                        // default:
-                        //   return <WavesIcon style={{fontSize:'1.38rem'}}/>
+                        case 'gos_circos_demm':
+                          return( <div style={{width:'100%', height:'600px', display: 'flex', alignItems:'center', justifyContent:'center'}}><GosCircosDemo /></div>);  
+                        default:
+                          return                  
                       }}
                       )()                      
             })()}

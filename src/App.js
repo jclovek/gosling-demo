@@ -42,7 +42,8 @@ class App extends Component {
     return (
       <Provider store={Store} >
       <div>
-        <Notifier ref = {this.snackbarRef} />
+      {/* <Notifier ref = {this.snackbarRef} /> */}
+      <Notifier ref = {c => { this.snackbarRef = c }} />
         <BrowserRouter >
           { this.state.loaded ?
             <>
